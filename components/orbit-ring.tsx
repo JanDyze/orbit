@@ -7,14 +7,14 @@ import { arcPath, dayAngle, polar, YEAR_DAYS } from "@/lib/birthdays/orbit-geome
 
 export const RING_C = 180;
 export const RING_R = 124;
-const GAP_DEG = 18; // the gap the flame sits in, as in the logo (the round caps eat into it)
+const GAP_DEG = 20; // the gap the flame sits in, as in the logo (the round caps eat into it)
 const GAP_CLEAR_DAYS = 9; // busy-week thickening stops short of the gap on both sides
-const RING_WIDTH = 13;
+export const RING_WIDTH = 20;
 
 // The logo's flame, traced (components/orbit-mark-paths.ts), sized for the dial and centered on
 // today's spot on the ring.
 const FLAME_MID = { x: (LOGO_FLAME_BOX.x0 + LOGO_FLAME_BOX.x1) / 2, y: (LOGO_FLAME_BOX.y0 + LOGO_FLAME_BOX.y1) / 2 };
-const FLAME_SCALE = 23 / (LOGO_FLAME_BOX.y1 - LOGO_FLAME_BOX.y0); // about 23 units tall
+const FLAME_SCALE = 28 / (LOGO_FLAME_BOX.y1 - LOGO_FLAME_BOX.y0); // about 28 units tall
 
 // The ring, open at today, with the flame in the gap. `glow` when someone's birthday is today.
 export function OrbitRing({ turn = 0, glow = false, ringClass, flameClass }: { turn?: number; glow?: boolean; ringClass?: string; flameClass?: string }) {
@@ -90,7 +90,7 @@ export function RingBeads({
             d={arcPath(RING_C, RING_C, RING_R, dayAngle(from, turn), dayAngle(to, turn))}
             fill="none"
             stroke="var(--primary)"
-            strokeWidth={RING_WIDTH + Math.min(6, (n - 3) * 2)}
+            strokeWidth={RING_WIDTH + Math.min(8, (n - 3) * 2)}
             strokeLinecap="round"
           />
         );
@@ -100,12 +100,12 @@ export function RingBeads({
         const on = [c.first, c.last].some((d) => lit?.(d) ?? false);
         const p = polar(RING_C, RING_C, RING_R, dayAngle(at, turn));
         const counted = c.total >= 3;
-        const r = counted ? Math.min(8.5, 5.8 + (c.total - 3) * 0.5) : (on ? 3.9 : 3) + (c.total - 1) * 0.9;
+        const r = counted ? Math.min(9.5, 7 + (c.total - 3) * 0.5) : (on ? 5.2 : 4) + (c.total - 1) * 1.1;
         return (
           <g key={c.first} className="dial-bead" style={introDelay ? { animationDelay: `${250 + (dayAngle(at) / 360) * 1100}ms` } : undefined}>
             <circle cx={p.x} cy={p.y} r={r} fill={on ? "var(--sun)" : "var(--background)"} />
             {counted && (
-              <text x={p.x} y={p.y} textAnchor="middle" dominantBaseline="central" className="fill-primary font-brand text-[7.5px] font-extrabold tabular-nums">
+              <text x={p.x} y={p.y} textAnchor="middle" dominantBaseline="central" className="fill-primary font-brand text-[9px] font-extrabold tabular-nums">
                 {c.total}
               </text>
             )}

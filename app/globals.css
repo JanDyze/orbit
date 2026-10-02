@@ -293,6 +293,10 @@ html {
   .dial-intro .dial-month {
     animation: dial-fade 0.6s ease-out 0.3s both;
   }
+  .dial-intro .dial-beam,
+  .dial-intro .dial-corona {
+    animation: dial-fade 0.8s ease-out 1.2s both;
+  }
   .dial-intro .dial-lens {
     animation: dial-fade 0.7s ease-out 1.35s both;
   }
@@ -377,6 +381,178 @@ html {
   from {
     opacity: 0;
     translate: 0 -8px;
+  }
+}
+
+/* ---------- Icons (components/icons.tsx) ---------- */
+
+/* The accent is currentColor at rest and the sun's marigold once on (or the current page). */
+.icon {
+  --icon-accent: currentColor;
+}
+.icon-on,
+[aria-pressed="true"] > .icon,
+[aria-current="page"] .icon {
+  --icon-accent: var(--sun);
+}
+.icon * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.icon-prayed .i-rays {
+  opacity: 0;
+}
+.icon-prayed.icon-on .i-rays,
+[aria-pressed="true"] > .icon-prayed .i-rays {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Year: the ring makes one turn; the flame keeps flickering while it's the current page. */
+  [aria-current="page"] .icon-year .i-ring {
+    transform-box: view-box;
+    transform-origin: 12px 12px;
+    animation: icon-turn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  [aria-current="page"] .icon-year .i-flame {
+    transform-origin: 50% 90%;
+    animation: om-flicker 2.6s ease-in-out infinite alternate;
+  }
+  /* Calendar: the page's rings hop, and the birthday bead pops. */
+  [aria-current="page"] .icon-calendar .i-tab-l {
+    animation: icon-hop 0.45s ease-out both;
+  }
+  [aria-current="page"] .icon-calendar .i-tab-r {
+    animation: icon-hop 0.45s ease-out 0.08s both;
+  }
+  [aria-current="page"] .icon-calendar .i-bead {
+    animation: icon-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  /* Add: the plus turns a quarter as it's pressed. */
+  .icon-add .i-plus {
+    transition: rotate 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :active > .icon-add .i-plus,
+  :hover > .icon-add .i-plus {
+    rotate: 90deg;
+  }
+  /* Greeted: the bubble gives a little squeeze and the heart beats in. */
+  [aria-pressed="true"] > .icon-greeted .i-bubble {
+    animation: icon-squeeze 0.45s ease-out both;
+  }
+  [aria-pressed="true"] > .icon-greeted .i-heart {
+    animation: icon-beat 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  /* Prayed: the hands press together and light rises above them. */
+  [aria-pressed="true"] > .icon-prayed .i-hands {
+    animation: icon-press 0.5s ease-out both;
+  }
+  [aria-pressed="true"] > .icon-prayed .i-rays path {
+    animation: icon-ray 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  [aria-pressed="true"] > .icon-prayed .i-rays path:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  [aria-pressed="true"] > .icon-prayed .i-rays path:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  /* Gifted: the lid pops up off the box and settles back. */
+  [aria-pressed="true"] > .icon-gifted .i-lid {
+    transform-box: view-box;
+    transform-origin: 12px 11px;
+    animation: icon-lid 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  /* Celebrated: the popper kicks and the confetti bursts out of its mouth. */
+  [aria-pressed="true"] > .icon-celebrated .i-cone {
+    transform-box: view-box;
+    transform-origin: 4px 20px;
+    animation: icon-kick 0.45s ease-out both;
+  }
+  [aria-pressed="true"] > .icon-celebrated .i-confetti > * {
+    animation: icon-burst 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  [aria-pressed="true"] > .icon-celebrated .i-c2 {
+    animation-delay: 0.05s;
+  }
+  [aria-pressed="true"] > .icon-celebrated .i-c3 {
+    animation-delay: 0.1s;
+  }
+  [aria-pressed="true"] > .icon-celebrated .i-c4 {
+    animation-delay: 0.04s;
+  }
+  [aria-pressed="true"] > .icon-celebrated .i-c5 {
+    animation-delay: 0.12s;
+  }
+  /* Sound on: the waves ripple out once. */
+  .icon-sound .i-waves path {
+    animation: icon-ray 0.4s ease-out both;
+  }
+  .icon-sound .i-waves path:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+}
+
+@keyframes icon-turn {
+  from {
+    rotate: -360deg;
+  }
+}
+@keyframes icon-hop {
+  40% {
+    translate: 0 -2.5px;
+  }
+}
+@keyframes icon-pop {
+  from {
+    scale: 0;
+  }
+}
+@keyframes icon-squeeze {
+  35% {
+    scale: 0.88 1.08;
+  }
+  70% {
+    scale: 1.06 0.96;
+  }
+}
+@keyframes icon-beat {
+  from {
+    scale: 0;
+  }
+  55% {
+    scale: 1.35;
+  }
+}
+@keyframes icon-press {
+  35% {
+    scale: 1.1 1;
+  }
+  70% {
+    scale: 0.94 1;
+  }
+}
+@keyframes icon-ray {
+  from {
+    opacity: 0;
+    scale: 0.3;
+  }
+}
+@keyframes icon-lid {
+  35% {
+    translate: 0 -3.5px;
+    rotate: -12deg;
+  }
+}
+@keyframes icon-kick {
+  30% {
+    rotate: -10deg;
+  }
+}
+@keyframes icon-burst {
+  from {
+    opacity: 0;
+    translate: -6px 6px;
+    scale: 0.2;
   }
 }
 

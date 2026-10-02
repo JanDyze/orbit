@@ -3,19 +3,24 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ChevronLeft, ChevronRight, LocateFixed } from "lucide-react";
 import { BirthdayRowLink } from "@/components/birthday-row";
-import { OrbitRing, RING_C as C, RING_R as R, RingBeads } from "@/components/orbit-ring";
+import { SoundIcon } from "@/components/icons";
+import { OrbitRing, RING_C as C, RING_R as R, RING_WIDTH, RingBeads } from "@/components/orbit-ring";
 import type { BirthdayRow } from "@/lib/birthdays/calendar";
 import { MONTHS, shortDay } from "@/lib/birthdays/dates";
 import { addDays, arcPath, dayAngle, inLens, monthStarts, normalizeTurn, polar, shortestTurn, YEAR_DAYS } from "@/lib/birthdays/orbit-geometry";
+import { setSoundOn, soundOn, subscribeSound, tick } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 
 // The year as one orbit. Today is the flame in the ring's gap; everyone sits on the ring at their
-// birthday, clockwise from now. The marigold lens at the top covers 30 days, and turning the dial
-// (drag the ring, the arrows, or the arrow keys) moves the year under it; the list below follows.
+// birthday, clockwise from now. The marigold lens at the top covers 30 days, lit by a beam from the
+// sun, and turning the dial moves the year under it while the list below follows. Ways to turn it:
+// drag the ring, tap a month's name, swipe sideways across the list, the arrows, or the arrow keys.
+// Each day that passes under the lens ticks, and each new month tocks (lib/sound.ts).
 
 const SUN = 54;
 const LENS_DAYS = 30;
 const LENS_DEG = (LENS_DAYS * 360) / YEAR_DAYS;
+const SWIPE_DAYS_PER_PX = 30 / 180; // a swipe across about half the screen turns a month
 const HINT_KEY = "orbit-dial-turned";
 
 // Whether the dial's opening animation has played since the app was opened (as BrandMark).
@@ -41,15 +46,18 @@ function shortName(row: BirthdayRow) {
   return name.length > 13 ? `${name.slice(0, 12)}…` : name;
 }
 
-// `compact` when today's or pending cards sit above, so the whole ring still fits the first screen.
+// `compact` when today's or pending cards sit above, so the ring still fits the first screen.
 export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]; today: string; compact?: boolean }) {
   const [turn, setTurn] = useState(0); // days turned forward; fractional while dragging
   const [dragging, setDragging] = useState(false);
   const [intro] = useState(() => !introPlayed);
   const turnedBefore = useSyncExternalStore(noSubscription, hasTurnedBefore, () => true);
+  const sound = useSyncExternalStore(subscribeSound, soundOn, () => true);
   const [turnedNow, setTurnedNow] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ angle: number } | null>(null);
+  const swipe = useRef<{ x: number; y: number; turn: number; active: boolean } | null>(null);
+  const swiped = useRef(false);
   const frame = useRef(0);
   // The latest turn, for event handlers and the spring animation.
   const turnRef = useRef(0);
@@ -75,6 +83,16 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
   }, []);
 
   const snapped = mod(Math.round(turn), YEAR_DAYS);
+  const lensStart = addDays(today, snapped);
+
+  // The ratchet: a tick per day under the lens, a tock when the lens enters a new month.
+  const passed = useRef({ day: 0, month: today.slice(5, 7) });
+  useEffect(() => {
+    if (snapped === passed.current.day) return;
+    const month = lensStart.slice(5, 7);
+    tick(month !== passed.current.month ? "month" : "day");
+    passed.current = { day: snapped, month };
+  }, [snapped, lensStart]);
 
   // Eases the dial to a whole day, the short way round.
   const turnTo = useCallback((target: number) => {
@@ -86,7 +104,7 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
       return;
     }
     const start = performance.now();
-    const duration = Math.min(700, 280 + Math.abs(distance) * 3);
+    const duration = Math.min(900, 300 + Math.abs(distance) * 3);
     const step = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(2, -10 * t); // exponential ease-out
@@ -136,6 +154,40 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
     turnTo(Math.round(turnRef.current));
   }
 
+  // Swiping sideways across the list turns the year too: left brings later days in, like paging.
+  function onSwipeDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    swipe.current = { x: e.clientX, y: e.clientY, turn: turnRef.current, active: false };
+    swiped.current = false;
+  }
+
+  function onSwipeMove(e: React.PointerEvent<HTMLDivElement>) {
+    const s = swipe.current;
+    if (!s) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    if (!s.active) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        s.active = true;
+        swiped.current = true;
+        cancelAnimationFrame(frame.current);
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } else if (Math.abs(dy) > 10) {
+        swipe.current = null; // a scroll, not a swipe
+      }
+      return;
+    }
+    setTurn(s.turn - dx * SWIPE_DAYS_PER_PX);
+  }
+
+  function onSwipeUp() {
+    const s = swipe.current;
+    swipe.current = null;
+    if (!s?.active) return;
+    rememberTurned();
+    turnTo(Math.round(turnRef.current));
+  }
+
   function turnBy(days: number) {
     rememberTurned();
     turnTo(Math.round(turnRef.current) + days);
@@ -154,6 +206,13 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
 
   const months = useMemo(() => monthStarts(today), [today]);
   const days = useMemo(() => rows.map((r) => r.daysUntil), [rows]);
+  const thisMonth = Number(today.slice(5, 7));
+
+  // Tapping a month's name turns the lens to its 1st (or back to today, for this month).
+  function goToMonth(month: number, offset: number) {
+    rememberTurned();
+    turnTo(month === thisMonth ? 0 : offset);
+  }
 
   const lensRows = useMemo(
     () =>
@@ -163,7 +222,6 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
     [rows, snapped],
   );
 
-  const lensStart = addDays(today, snapped);
   const lensEnd = addDays(today, snapped + LENS_DAYS - 1);
   const atToday = snapped === 0;
   const lensLabel = atToday ? "Next 30 days" : `${shortDay(lensStart)} – ${shortDay(lensEnd)}`;
@@ -191,10 +249,22 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
   }
 
   const showHint = !turnedBefore && !turnedNow && rows.length > 0;
+  const beamEdge = R - RING_WIDTH / 2 - 4;
+  const beamA = polar(C, C, beamEdge, 0);
+  const beamB = polar(C, C, beamEdge, LENS_DEG);
 
   return (
     <section aria-label="Your year" className="flex flex-col">
       <div className={cn("relative mx-auto w-full", compact ? "max-w-[21rem] sm:max-w-[26rem]" : "max-w-[26rem]", intro && "dial-intro")}>
+        <button
+          type="button"
+          onClick={() => setSoundOn(!sound)}
+          aria-pressed={sound}
+          aria-label={sound ? "Turn dial sound off" : "Turn dial sound on"}
+          className="absolute -top-1 -right-1 z-10 flex size-10 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+        >
+          <SoundIcon on={sound} className="size-5" />
+        </button>
         <svg
           ref={svgRef}
           viewBox="0 0 360 360"
@@ -208,26 +278,38 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
           onKeyDown={onKeyDown}
           className="block h-auto w-full touch-pan-y overflow-visible rounded-full outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
-          {/* The lens: the 30 days the list below shows. */}
-          <path className="dial-lens" d={arcPath(C, C, R + 13, 0, LENS_DEG)} fill="none" stroke="var(--sun)" strokeWidth={6} strokeLinecap="round" />
+          {/* The sun's corona, and its beam lighting the 30 days under the lens. */}
+          <circle className="dial-corona" cx={C} cy={C} r={SUN + 24} fill="var(--sun)" opacity={0.07} />
+          <circle className="dial-corona" cx={C} cy={C} r={SUN + 11} fill="var(--sun)" opacity={0.12} />
+          <path
+            className="dial-beam"
+            d={`M${C} ${C} L${beamA.x} ${beamA.y} A${beamEdge} ${beamEdge} 0 0 1 ${beamB.x} ${beamB.y} Z`}
+            fill="var(--sun)"
+            opacity={0.16}
+          />
 
-          {/* Month ticks and names, outside the ring. */}
+          {/* The lens: the 30 days the list below shows. */}
+          <path className="dial-lens" d={arcPath(C, C, R + RING_WIDTH / 2 + 8, 0, LENS_DEG)} fill="none" stroke="var(--sun)" strokeWidth={6} strokeLinecap="round" />
+
+          {/* Month ticks outside the ring. */}
           {months.map(({ month, days: offset }) => {
             const a = dayAngle(offset, turn);
-            const t1 = polar(C, C, R + 21, a);
-            const t2 = polar(C, C, R + 27, a);
-            const label = polar(C, C, R + 41, a + 15);
-            return (
-              <g key={month} className="dial-month">
-                <line x1={t1.x} y1={t1.y} x2={t2.x} y2={t2.y} stroke="var(--muted-foreground)" strokeOpacity={0.5} strokeWidth={1.5} strokeLinecap="round" />
-                <text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="central" className="fill-muted-foreground font-brand text-[11px] font-bold tracking-wide uppercase">
-                  {MONTHS[month - 1].slice(0, 3)}
-                </text>
-              </g>
-            );
+            const t1 = polar(C, C, R + RING_WIDTH / 2 + 15, a);
+            const t2 = polar(C, C, R + RING_WIDTH / 2 + 21, a);
+            return <line key={month} className="dial-month" x1={t1.x} y1={t1.y} x2={t2.x} y2={t2.y} stroke="var(--muted-foreground)" strokeOpacity={0.5} strokeWidth={1.5} strokeLinecap="round" />;
           })}
 
           <OrbitRing turn={turn} glow={todays.length > 0} ringClass="dial-ring" flameClass="dial-flame" />
+
+          {/* The ring notched into its twelve months. */}
+          {months.map(({ month, days: offset }) => {
+            if (offset < 6 || offset > YEAR_DAYS - 6) return null; // not inside the gap at today
+            const a = dayAngle(offset, turn);
+            const n1 = polar(C, C, R - RING_WIDTH / 2 - 1, a);
+            const n2 = polar(C, C, R + RING_WIDTH / 2 + 1, a);
+            return <line key={month} className="dial-month" x1={n1.x} y1={n1.y} x2={n2.x} y2={n2.y} stroke="var(--background)" strokeWidth={2} />;
+          })}
+
           <RingBeads days={days} turn={turn} lit={(d) => inLens(d, snapped, LENS_DAYS)} introDelay={intro} />
 
           {/* The sun, and what it says. */}
@@ -257,53 +339,102 @@ export function YearDial({ rows, today, compact = false }: { rows: BirthdayRow[]
             onPointerCancel={onPointerUp}
             className={cn("touch-none", dragging ? "cursor-grabbing" : "cursor-grab")}
           />
+
+          {/* Month names, outside the drag band: tap one to turn the lens to it. */}
+          {months.map(({ month, days: offset }) => {
+            const label = polar(C, C, R + RING_WIDTH / 2 + 35, dayAngle(offset, turn) + 15);
+            const current = Number(lensStart.slice(5, 7)) === month;
+            return (
+              <g
+                key={month}
+                role="button"
+                tabIndex={0}
+                aria-label={`Turn to ${MONTHS[month - 1]}`}
+                onClick={() => goToMonth(month, offset)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    goToMonth(month, offset);
+                  }
+                }}
+                className="dial-month group cursor-pointer outline-none"
+              >
+                <circle cx={label.x} cy={label.y} r={17} fill="var(--orbit-soft)" className="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+                <text
+                  x={label.x}
+                  y={label.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  className={cn("font-brand text-[11px] font-bold tracking-wide uppercase transition-colors", current ? "fill-primary" : "fill-muted-foreground group-hover:fill-primary")}
+                >
+                  {MONTHS[month - 1].slice(0, 3)}
+                </text>
+              </g>
+            );
+          })}
         </svg>
       </div>
 
-      <div className="mt-3 flex items-center gap-1">
-        <button
-          type="button"
-          onClick={() => turnBy(-LENS_DAYS)}
-          aria-label="Earlier 30 days"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          <ChevronLeft className="size-5" aria-hidden />
-        </button>
-        <div className="min-w-0 flex-1 text-center">
-          <h2 className="truncate font-brand text-lg font-extrabold tracking-tight" aria-live="polite">
-            {lensLabel}
-          </h2>
-          {!atToday ? (
-            <button
-              type="button"
-              onClick={() => turnTo(0)}
-              className="mx-auto mt-0.5 flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-primary hover:bg-orbit-soft"
-            >
-              <LocateFixed className="size-3.5" aria-hidden />
-              Back to today
-            </button>
+      {/* Header and list: swipe sideways here to turn the year. */}
+      <div
+        className="touch-pan-y"
+        onPointerDown={onSwipeDown}
+        onPointerMove={onSwipeMove}
+        onPointerUp={onSwipeUp}
+        onPointerCancel={onSwipeUp}
+        onClickCapture={(e) => {
+          if (swiped.current) {
+            e.preventDefault();
+            e.stopPropagation();
+            swiped.current = false;
+          }
+        }}
+      >
+        <div className="mt-3 flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => turnBy(-LENS_DAYS)}
+            aria-label="Earlier 30 days"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+          >
+            <ChevronLeft className="size-5" aria-hidden />
+          </button>
+          <div className="min-w-0 flex-1 text-center">
+            <h2 className="truncate font-brand text-lg font-extrabold tracking-tight" aria-live="polite">
+              {lensLabel}
+            </h2>
+            {!atToday ? (
+              <button
+                type="button"
+                onClick={() => turnTo(0)}
+                className="mx-auto mt-0.5 flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-primary hover:bg-orbit-soft"
+              >
+                <LocateFixed className="size-3.5" aria-hidden />
+                Back to today
+              </button>
+            ) : (
+              showHint && <p className="mt-0.5 text-xs text-muted-foreground">Drag the ring, tap a month, or swipe the list</p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => turnBy(LENS_DAYS)}
+            aria-label="Later 30 days"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+          >
+            <ChevronRight className="size-5" aria-hidden />
+          </button>
+        </div>
+
+        <div className="mt-3 flex min-h-24 flex-col">
+          {lensRows.length === 0 ? (
+            <p className="rounded-2xl bg-muted px-4 py-6 text-center text-sm text-muted-foreground">
+              {rows.length === 0 ? "Your year is empty. Add someone and they'll appear on the ring." : "No birthdays in these 30 days."}
+            </p>
           ) : (
-            showHint && <p className="mt-0.5 text-xs text-muted-foreground">Drag the ring to look further ahead</p>
+            lensRows.map((row) => <BirthdayRowLink key={row.personId} row={row} />)
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => turnBy(LENS_DAYS)}
-          aria-label="Later 30 days"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          <ChevronRight className="size-5" aria-hidden />
-        </button>
-      </div>
-
-      <div className="mt-3 flex flex-col">
-        {lensRows.length === 0 ? (
-          <p className="rounded-2xl bg-muted px-4 py-6 text-center text-sm text-muted-foreground">
-            {rows.length === 0 ? "Your year is empty. Add someone and they'll appear on the ring." : "No birthdays in these 30 days."}
-          </p>
-        ) : (
-          lensRows.map((row) => <BirthdayRowLink key={row.personId} row={row} />)
-        )}
       </div>
     </section>
   );

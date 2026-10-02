@@ -1,37 +1,35 @@
 import Link from "next/link";
-import { CalendarDays, Plus } from "lucide-react";
-import { OrbitMark } from "@/components/orbit-mark";
+import { AddIcon, CalendarIcon, YearIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export type Tab = "home" | "calendar";
 
-// The phone's bottom bar: your year, the calendar, and adding someone, which sits raised in the
-// sun's color as the one thing you're always invited to do.
+// The phone's bottom bar: a floating rounded bar over the page, your year on one side and the
+// calendar on the other, and adding someone in the middle as a raised sun, the one thing you're
+// always invited to do. The current page sits in a soft blue pill and its icon plays its little
+// animation as you arrive.
 export function TabBar({ active }: { active: Tab }) {
   const item = (on: boolean) =>
     cn(
-      "flex h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[0.7rem] font-semibold transition-colors",
-      on ? "text-primary" : "text-muted-foreground hover:text-foreground",
+      "flex h-12 flex-1 items-center justify-center gap-2 rounded-full text-sm font-bold transition-colors",
+      on ? "bg-orbit-soft text-primary" : "text-muted-foreground hover:text-foreground",
     );
   return (
-    <nav
-      aria-label="Main"
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-border/70 bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md"
-    >
-      <div className="mx-auto flex w-full max-w-xl items-end px-6">
+    <nav aria-label="Main" className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="pointer-events-auto relative mx-auto flex h-16 max-w-sm items-center gap-2 rounded-full border border-border/70 bg-card/90 px-2 shadow-[0_12px_32px_-12px_oklch(0.4_0.17_262/0.35)] backdrop-blur-xl">
         <Link href="/" aria-current={active === "home" ? "page" : undefined} className={item(active === "home")}>
-          <OrbitMark className={cn("size-6", active !== "home" && "opacity-55 grayscale")} motion="still" />
+          <YearIcon className="size-6" />
           Year
         </Link>
         <Link
           href="/people/new"
           aria-label="Add someone"
-          className="-mt-5 mx-4 flex size-14 shrink-0 items-center justify-center rounded-full bg-sun text-sun-foreground shadow-[0_6px_16px_-4px_oklch(0.6_0.15_70/0.55)] ring-4 ring-background transition-transform active:scale-95"
+          className="tab-add relative -my-4 flex size-16 shrink-0 items-center justify-center rounded-full bg-sun text-sun-foreground shadow-[0_8px_20px_-6px_oklch(0.62_0.15_70/0.7)] ring-[5px] ring-background transition-transform active:scale-95"
         >
-          <Plus className="size-7" strokeWidth={2.5} aria-hidden />
+          <AddIcon className="size-8" />
         </Link>
         <Link href="/calendar" aria-current={active === "calendar" ? "page" : undefined} className={item(active === "calendar")}>
-          <CalendarDays className="size-6" aria-hidden />
+          <CalendarIcon className="size-6" />
           Calendar
         </Link>
       </div>

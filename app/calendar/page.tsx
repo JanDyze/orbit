@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { MonthCalendar } from "@/components/month-calendar";
+import { MonthStrip } from "@/components/month-strip";
 import { Screen } from "@/components/screen";
 import { requireAccess } from "@/lib/auth";
 import { birthdayCalendar } from "@/lib/birthdays/calendar";
 import { MONTHS } from "@/lib/birthdays/dates";
 import { today } from "@/lib/day";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Calendar" };
 
@@ -30,8 +30,6 @@ export default async function CalendarPage({ searchParams }: PageProps<"/calenda
 
   const all = await birthdayCalendar(`${month}-01`);
   const inMonth = all.filter((r) => r.nextBirthday.startsWith(month));
-  const perMonth = Array.from({ length: 12 }, (_, i) => all.filter((r) => r.birthMonth === i + 1).length);
-  const busiest = Math.max(1, ...perMonth);
 
   return (
     <Screen tab="calendar">
@@ -55,34 +53,20 @@ export default async function CalendarPage({ searchParams }: PageProps<"/calenda
         </Link>
       </div>
 
-      {/* The year at a glance: each month's initial over a bar as tall as its share of birthdays. */}
-      <nav aria-label="Months" className="mb-5 grid grid-cols-12 gap-1">
-        {MONTHS.map((name, i) => {
-          const value = `${year}-${String(i + 1).padStart(2, "0")}`;
-          const current = i + 1 === monthNumber;
-          return (
-            <Link
-              key={name}
-              href={`/calendar?m=${value}`}
-              aria-label={`${name}: ${perMonth[i]} ${perMonth[i] === 1 ? "birthday" : "birthdays"}`}
-              aria-current={current ? "page" : undefined}
-              className={cn("flex flex-col items-center gap-1 rounded-lg py-1.5", current ? "bg-orbit-soft" : "hover:bg-muted")}
-            >
-              <span className="flex h-7 w-2 items-end overflow-hidden rounded-full bg-muted">
-                <span
-                  className={cn("w-full rounded-full", current ? "bg-sun" : "bg-primary/45")}
-                  style={{ height: `${perMonth[i] === 0 ? 0 : Math.max(18, (perMonth[i] / busiest) * 100)}%` }}
-                />
-              </span>
-              <span className={cn("text-[0.7rem] font-bold", current ? "text-primary" : "text-muted-foreground")}>{name[0]}</span>
-            </Link>
-          );
+      <MonthStrip
+        year={year}
+        month={monthNumber}
+        months={Array.from({ length: 12 }, (_, i) => {
+          const these = all.filter((r) => r.birthMonth === i + 1).sort((a, b) => a.birthDay - b.birthDay);
+          return { count: these.length, names: these.slice(0, 3).map((r) => r.nicknames[0] ?? r.name.split(" ")[0]) };
         })}
-      </nav>
+      />
 
       <MonthCalendar
         month={month}
         today={day}
+        prevHref={`/calendar?m=${shiftMonth(year, monthNumber, -1)}`}
+        nextHref={`/calendar?m=${shiftMonth(year, monthNumber, 1)}`}
         people={inMonth.map((r) => ({
           personId: r.personId,
           name: r.name,

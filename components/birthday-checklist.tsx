@@ -1,16 +1,16 @@
 "use client";
 
 import { useOptimistic, useState, useTransition } from "react";
-import { Gift, HandHeart, MessageCircleHeart, PartyPopper } from "lucide-react";
+import { CelebratedIcon, GiftedIcon, GreetedIcon, PrayedIcon } from "@/components/icons";
 import { markAction } from "@/app/people/log-actions";
 import type { BirthdayAction } from "@/lib/birthdays/input";
 import { cn } from "@/lib/utils";
 
-const ITEMS: { action: BirthdayAction; label: string; Icon: typeof Gift }[] = [
-  { action: "greeted", label: "Greeted", Icon: MessageCircleHeart },
-  { action: "prayed", label: "Prayed", Icon: HandHeart },
-  { action: "gifted", label: "Gifted", Icon: Gift },
-  { action: "celebrated", label: "Celebrated", Icon: PartyPopper },
+const ITEMS: { action: BirthdayAction; label: string; Icon: typeof GiftedIcon }[] = [
+  { action: "greeted", label: "Greeted", Icon: GreetedIcon },
+  { action: "prayed", label: "Prayed", Icon: PrayedIcon },
+  { action: "gifted", label: "Gifted", Icon: GiftedIcon },
+  { action: "celebrated", label: "Celebrated", Icon: CelebratedIcon },
 ];
 
 export type Checklist = Record<BirthdayAction, boolean>;
@@ -76,7 +76,7 @@ export function BirthdayChecklist({
                     : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
-              <Icon className="size-5" aria-hidden />
+              <Icon className={compact ? "size-5" : "size-6"} />
               {!compact && label}
             </button>
           );

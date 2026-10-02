@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { weekday } from "@/lib/birthdays/dates";
 import { cn } from "@/lib/utils";
@@ -18,9 +19,54 @@ export type MonthPerson = {
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
 // A month grid where each birthday is a bead on its day, like the beads on the home dial. Tap a
-// day to see just its people; tap it again for the whole month.
-export function MonthCalendar({ month, today, people }: { month: string; today: string; people: MonthPerson[] }) {
+// day to see just its people; tap it again for the whole month. Swipe the grid sideways for the
+// month before or after.
+export function MonthCalendar({
+  month,
+  today,
+  people,
+  prevHref,
+  nextHref,
+}: {
+  month: string;
+  today: string;
+  people: MonthPerson[];
+  prevHref: string;
+  nextHref: string;
+}) {
+  const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
+  const [shift, setShift] = useState(0);
+  const swipe = useRef<{ x: number; y: number; active: boolean } | null>(null);
+  const swiped = useRef(false);
+
+  function onSwipeDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    swipe.current = { x: e.clientX, y: e.clientY, active: false };
+    swiped.current = false;
+  }
+  function onSwipeMove(e: React.PointerEvent<HTMLDivElement>) {
+    const s = swipe.current;
+    if (!s) return;
+    const dx = e.clientX - s.x;
+    if (!s.active) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(e.clientY - s.y) * 1.3) {
+        s.active = true;
+        swiped.current = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } else if (Math.abs(e.clientY - s.y) > 10) swipe.current = null;
+      return;
+    }
+    setShift(dx * 0.35);
+  }
+  function onSwipeUp(e: React.PointerEvent<HTMLDivElement>) {
+    const s = swipe.current;
+    swipe.current = null;
+    if (!s?.active) return;
+    const dx = e.clientX - s.x;
+    setShift(0);
+    if (Math.abs(dx) > 60) router.push(dx < 0 ? nextHref : prevHref);
+  }
   const year = Number(month.slice(0, 4));
   const monthIndex = Number(month.slice(5, 7)) - 1;
   const firstWeekday = new Date(Date.UTC(year, monthIndex, 1)).getUTCDay();
@@ -33,7 +79,26 @@ export function MonthCalendar({ month, today, people }: { month: string; today: 
 
   return (
     <div className="flex flex-col gap-5">
-      <div role="group" aria-label="Days of the month" className="rounded-3xl border border-border bg-card p-2">
+      <div
+        role="group"
+        aria-label="Days of the month"
+        onPointerDown={onSwipeDown}
+        onPointerMove={onSwipeMove}
+        onPointerUp={onSwipeUp}
+        onPointerCancel={() => {
+          swipe.current = null;
+          setShift(0);
+        }}
+        onClickCapture={(e) => {
+          if (swiped.current) {
+            e.preventDefault();
+            e.stopPropagation();
+            swiped.current = false;
+          }
+        }}
+        style={{ translate: `${shift}px 0`, transition: shift === 0 ? "translate 0.3s cubic-bezier(0.16, 1, 0.3, 1)" : "none" }}
+        className="touch-pan-y rounded-3xl border border-border bg-card p-2"
+      >
         <div aria-hidden className="grid grid-cols-7">
           {WEEKDAYS.map((d, i) => (
             <span key={i} className="py-1.5 text-center text-[0.7rem] font-bold text-muted-foreground">

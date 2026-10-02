@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Check, ChevronDown, Loader2, RotateCcw } from "lucide-react";
 import { savePerson, type PersonFormState } from "@/app/people/actions";
 import { maxDayOfMonth, MONTHS } from "@/lib/birthdays/dates";
-import { OrbitRing, RING_C as C, RING_R as R, RingBeads } from "@/components/orbit-ring";
+import { OrbitRing, RING_C as C, RING_R as R, RING_WIDTH, RingBeads } from "@/components/orbit-ring";
 import { arcPath, dayAngle, daysUntilDate, polar } from "@/lib/birthdays/orbit-geometry";
 import { cn } from "@/lib/utils";
 
@@ -118,7 +118,7 @@ export function OrbitAdd({
               d={arcPath(C, C, R, dayAngle(daysUntilDate(today, month, 1)), dayAngle(daysUntilDate(today, month, maxDayOfMonth(month))))}
               fill="none"
               stroke="var(--primary)"
-              strokeWidth={13}
+              strokeWidth={RING_WIDTH}
               strokeLinecap="round"
             />
           )}

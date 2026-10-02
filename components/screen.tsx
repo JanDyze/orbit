@@ -51,7 +51,7 @@ export function Screen({
       <main
         className={cn(
           "mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-5",
-          tab ? "pb-[calc(7rem+env(safe-area-inset-bottom))]" : "pb-[max(3rem,env(safe-area-inset-bottom))]",
+          tab ? "pb-[calc(8rem+env(safe-area-inset-bottom))]" : "pb-[max(3rem,env(safe-area-inset-bottom))]",
           className,
         )}
       >
