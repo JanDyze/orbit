@@ -1,0 +1,604 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T04:12:39.368Z",
+  "title": "Design System: Orbit",
+  "extensions": {
+    "colorMeta": {
+      "royal-orbit": {
+        "role": "primary",
+        "displayName": "Royal Orbit",
+        "canonical": "oklch(0.4 0.17 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.17 262)",
+          "oklch(0.26 0.17 262)",
+          "oklch(0.37 0.17 262)",
+          "oklch(0.48 0.17 262)",
+          "oklch(0.6 0.17 262)",
+          "oklch(0.72 0.17 262)",
+          "oklch(0.84 0.17 262)",
+          "oklch(0.95 0.17 262)"
+        ],
+        "logoHex": "#013FA3"
+      },
+      "royal-orbit-ink": {
+        "role": "primary",
+        "displayName": "Royal Orbit Ink",
+        "canonical": "oklch(0.985 0.005 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.005 85)",
+          "oklch(0.26 0.005 85)",
+          "oklch(0.37 0.005 85)",
+          "oklch(0.48 0.005 85)",
+          "oklch(0.6 0.005 85)",
+          "oklch(0.72 0.005 85)",
+          "oklch(0.84 0.005 85)",
+          "oklch(0.95 0.005 85)"
+        ]
+      },
+      "marigold-sun": {
+        "role": "secondary",
+        "displayName": "Marigold Sun",
+        "canonical": "oklch(0.82 0.16 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.16 75)",
+          "oklch(0.26 0.16 75)",
+          "oklch(0.37 0.16 75)",
+          "oklch(0.48 0.16 75)",
+          "oklch(0.6 0.16 75)",
+          "oklch(0.72 0.16 75)",
+          "oklch(0.84 0.16 75)",
+          "oklch(0.95 0.16 75)"
+        ],
+        "logoHex": "#FCB327"
+      },
+      "sun-ink": {
+        "role": "secondary",
+        "displayName": "Sun Ink",
+        "canonical": "oklch(0.27 0.06 60)",
+        "tonalRamp": [
+          "oklch(0.15 0.06 60)",
+          "oklch(0.26 0.06 60)",
+          "oklch(0.37 0.06 60)",
+          "oklch(0.48 0.06 60)",
+          "oklch(0.6 0.06 60)",
+          "oklch(0.72 0.06 60)",
+          "oklch(0.84 0.06 60)",
+          "oklch(0.95 0.06 60)"
+        ]
+      },
+      "sun-soft": {
+        "role": "secondary",
+        "displayName": "Sun Soft",
+        "canonical": "oklch(0.95 0.06 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.06 85)",
+          "oklch(0.26 0.06 85)",
+          "oklch(0.37 0.06 85)",
+          "oklch(0.48 0.06 85)",
+          "oklch(0.6 0.06 85)",
+          "oklch(0.72 0.06 85)",
+          "oklch(0.84 0.06 85)",
+          "oklch(0.95 0.06 85)"
+        ]
+      },
+      "orbit-soft": {
+        "role": "primary",
+        "displayName": "Orbit Soft",
+        "canonical": "oklch(0.95 0.03 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 262)",
+          "oklch(0.26 0.03 262)",
+          "oklch(0.37 0.03 262)",
+          "oklch(0.48 0.03 262)",
+          "oklch(0.6 0.03 262)",
+          "oklch(0.72 0.03 262)",
+          "oklch(0.84 0.03 262)",
+          "oklch(0.95 0.03 262)"
+        ]
+      },
+      "cream-paper": {
+        "role": "neutral",
+        "displayName": "Cream Paper",
+        "canonical": "oklch(0.983 0.008 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.008 85)",
+          "oklch(0.26 0.008 85)",
+          "oklch(0.37 0.008 85)",
+          "oklch(0.48 0.008 85)",
+          "oklch(0.6 0.008 85)",
+          "oklch(0.72 0.008 85)",
+          "oklch(0.84 0.008 85)",
+          "oklch(0.95 0.008 85)"
+        ],
+        "logoHex": "#FCF9F2"
+      },
+      "card-white": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.37 0 0)",
+          "oklch(0.48 0 0)",
+          "oklch(0.6 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "navy-ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "canonical": "oklch(0.22 0.03 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 262)",
+          "oklch(0.26 0.03 262)",
+          "oklch(0.37 0.03 262)",
+          "oklch(0.48 0.03 262)",
+          "oklch(0.6 0.03 262)",
+          "oklch(0.72 0.03 262)",
+          "oklch(0.84 0.03 262)",
+          "oklch(0.95 0.03 262)"
+        ]
+      },
+      "warm-muted": {
+        "role": "neutral",
+        "displayName": "Warm Muted",
+        "canonical": "oklch(0.955 0.012 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 85)",
+          "oklch(0.26 0.012 85)",
+          "oklch(0.37 0.012 85)",
+          "oklch(0.48 0.012 85)",
+          "oklch(0.6 0.012 85)",
+          "oklch(0.72 0.012 85)",
+          "oklch(0.84 0.012 85)",
+          "oklch(0.95 0.012 85)"
+        ]
+      },
+      "muted-ink": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(0.5 0.025 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.025 262)",
+          "oklch(0.26 0.025 262)",
+          "oklch(0.37 0.025 262)",
+          "oklch(0.48 0.025 262)",
+          "oklch(0.6 0.025 262)",
+          "oklch(0.72 0.025 262)",
+          "oklch(0.84 0.025 262)",
+          "oklch(0.95 0.025 262)"
+        ]
+      },
+      "paper-border": {
+        "role": "neutral",
+        "displayName": "Paper Border",
+        "canonical": "oklch(0.91 0.012 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 85)",
+          "oklch(0.26 0.012 85)",
+          "oklch(0.37 0.012 85)",
+          "oklch(0.48 0.012 85)",
+          "oklch(0.6 0.012 85)",
+          "oklch(0.72 0.012 85)",
+          "oklch(0.84 0.012 85)",
+          "oklch(0.95 0.012 85)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Field Border",
+        "canonical": "oklch(0.88 0.015 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 85)",
+          "oklch(0.26 0.015 85)",
+          "oklch(0.37 0.015 85)",
+          "oklch(0.48 0.015 85)",
+          "oklch(0.6 0.015 85)",
+          "oklch(0.72 0.015 85)",
+          "oklch(0.84 0.015 85)",
+          "oklch(0.95 0.015 85)"
+        ]
+      },
+      "focus-ring": {
+        "role": "primary",
+        "displayName": "Focus Ring",
+        "canonical": "oklch(0.55 0.15 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.15 262)",
+          "oklch(0.26 0.15 262)",
+          "oklch(0.37 0.15 262)",
+          "oklch(0.48 0.15 262)",
+          "oklch(0.6 0.15 262)",
+          "oklch(0.72 0.15 262)",
+          "oklch(0.84 0.15 262)",
+          "oklch(0.95 0.15 262)"
+        ]
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Destructive",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.15 0.245 27.325)",
+          "oklch(0.26 0.245 27.325)",
+          "oklch(0.37 0.245 27.325)",
+          "oklch(0.48 0.245 27.325)",
+          "oklch(0.6 0.245 27.325)",
+          "oklch(0.72 0.245 27.325)",
+          "oklch(0.84 0.245 27.325)",
+          "oklch(0.95 0.245 27.325)"
+        ]
+      },
+      "night-navy": {
+        "role": "neutral",
+        "displayName": "Night Navy (dark ground)",
+        "canonical": "oklch(0.2 0.06 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.06 262)",
+          "oklch(0.26 0.06 262)",
+          "oklch(0.37 0.06 262)",
+          "oklch(0.48 0.06 262)",
+          "oklch(0.6 0.06 262)",
+          "oklch(0.72 0.06 262)",
+          "oklch(0.84 0.06 262)",
+          "oklch(0.95 0.06 262)"
+        ]
+      },
+      "night-card": {
+        "role": "neutral",
+        "displayName": "Night Card (dark card)",
+        "canonical": "oklch(0.245 0.065 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.065 262)",
+          "oklch(0.26 0.065 262)",
+          "oklch(0.37 0.065 262)",
+          "oklch(0.48 0.065 262)",
+          "oklch(0.6 0.065 262)",
+          "oklch(0.72 0.065 262)",
+          "oklch(0.84 0.065 262)",
+          "oklch(0.95 0.065 262)"
+        ]
+      },
+      "night-orbit": {
+        "role": "primary",
+        "displayName": "Night Orbit (dark primary)",
+        "canonical": "oklch(0.76 0.11 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.11 262)",
+          "oklch(0.26 0.11 262)",
+          "oklch(0.37 0.11 262)",
+          "oklch(0.48 0.11 262)",
+          "oklch(0.6 0.11 262)",
+          "oklch(0.72 0.11 262)",
+          "oklch(0.84 0.11 262)",
+          "oklch(0.95 0.11 262)"
+        ]
+      },
+      "night-sun-soft": {
+        "role": "secondary",
+        "displayName": "Night Sun Soft",
+        "canonical": "oklch(0.34 0.07 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.07 75)",
+          "oklch(0.26 0.07 75)",
+          "oklch(0.37 0.07 75)",
+          "oklch(0.48 0.07 75)",
+          "oklch(0.6 0.07 75)",
+          "oklch(0.72 0.07 75)",
+          "oklch(0.84 0.07 75)",
+          "oklch(0.95 0.07 75)"
+        ]
+      },
+      "night-orbit-soft": {
+        "role": "primary",
+        "displayName": "Night Orbit Soft",
+        "canonical": "oklch(0.3 0.08 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.08 262)",
+          "oklch(0.26 0.08 262)",
+          "oklch(0.37 0.08 262)",
+          "oklch(0.48 0.08 262)",
+          "oklch(0.6 0.08 262)",
+          "oklch(0.72 0.08 262)",
+          "oklch(0.84 0.08 262)",
+          "oklch(0.95 0.08 262)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Sun numeral",
+        "purpose": "The countdown inside the dial's sun (38px at the dial's 360 scale; 26px for words longer than three characters)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Person-page countdown, today's name (1.6rem), the add flow's name field."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Lens label, calendar month heading (up to 1.5rem), list headings; section titles at 1rem."
+      },
+      "countdown": {
+        "displayName": "Row countdown",
+        "purpose": "The tabular numeral leading each birthday row and month-list date."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Names in rows (500), form text at 1rem so iOS never zooms."
+      },
+      "body-small": {
+        "displayName": "Body small",
+        "purpose": "Detail lines under names."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Tab labels, weekday initials, the unit under a countdown (600 to 700)."
+      }
+    },
+    "themes": {
+      "light": {
+        "trigger": "default",
+        "themeColor": "#FCF9F2"
+      },
+      "dark": {
+        "trigger": "@media (prefers-color-scheme: dark)",
+        "themeColor": "#0e1b3d",
+        "background": "oklch(0.2 0.06 262)",
+        "card": "oklch(0.245 0.065 262)",
+        "foreground": "oklch(0.96 0.008 85)",
+        "primary": "oklch(0.76 0.11 262)",
+        "primary-foreground": "oklch(0.2 0.05 262)",
+        "sun": "oklch(0.82 0.15 75)",
+        "sun-foreground": "oklch(0.22 0.05 60)",
+        "sun-soft": "oklch(0.34 0.07 75)",
+        "orbit-soft": "oklch(0.3 0.08 262)",
+        "muted": "oklch(0.27 0.055 262)",
+        "muted-foreground": "oklch(0.76 0.03 262)",
+        "border": "oklch(1 0 0 / 10%)",
+        "input": "oklch(1 0 0 / 14%)",
+        "ring": "oklch(0.7 0.1 262)",
+        "destructive": "oklch(0.704 0.191 22.216)"
+      }
+    },
+    "shadows": [
+      {
+        "name": "sun-lift",
+        "value": "0 6px 16px -4px oklch(0.6 0.15 70 / 0.55)",
+        "purpose": "Only under the raised Add button, paired with a 4px page-colored ring."
+      },
+      {
+        "name": "choice-lift",
+        "value": "0 2px 6px -2px oklch(0.3 0.05 262 / 0.35)",
+        "purpose": "Month choices sitting on the add flow's ring."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent)",
+        "purpose": "Focus ring on controls, fields and the dial."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-arrive",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Things arriving: sun rise, flame ignite, beads settling, choices appearing, the added bead landing."
+      },
+      {
+        "name": "ease-draw",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Strokes drawing: the mark's ring, the dial's year, the add flow's month arc."
+      },
+      {
+        "name": "mark-intro",
+        "value": "about 2.1s: sun rises at 0s; spark draws 330 degrees from 0.25s over 1.4s; flame ignites at 1.55s; idle from 2.1s",
+        "purpose": "The logo's story, once per app open in the header, and on sign-in."
+      },
+      {
+        "name": "dial-intro",
+        "value": "ring draws 1.35s from 0.15s; beads settle in date order from 250ms to 1350ms; busy arcs fade at 1.3s; lens fades at 1.35s; flame ignites at 1.45s",
+        "purpose": "The year dial's opening, once per app open."
+      },
+      {
+        "name": "flame-flicker",
+        "value": "2.6s ease-in-out infinite alternate",
+        "purpose": "Idle flame on the mark and the dial."
+      },
+      {
+        "name": "sun-breathe",
+        "value": "6s ease-in-out infinite, scale 1.045",
+        "purpose": "Idle sun on the mark."
+      },
+      {
+        "name": "today-glow",
+        "value": "2.4s ease-in-out infinite, opacity 0.35 to 0.12, scale 1.5",
+        "purpose": "Behind the flame when someone's birthday is today."
+      },
+      {
+        "name": "dial-snap",
+        "value": "exponential ease-out, 280ms plus 3ms per day turned, max 700ms",
+        "purpose": "The dial easing to a whole day after a drag or a jump."
+      },
+      {
+        "name": "add-stagger",
+        "value": "choices 0.38s, 25ms per month and 12ms per day; arc draw 0.5s; bead land 0.6s; confirmation 0.45s",
+        "purpose": "The add flow placing someone on the ring."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all keyframes gated on prefers-reduced-motion: no-preference",
+        "purpose": "Everything rests still under reduced motion."
+      }
+    ],
+    "geometry": {
+      "ringBox": 360,
+      "ringCenter": 180,
+      "ringRadius": 124,
+      "ringStroke": 13,
+      "gapDegrees": 18,
+      "gapClearDays": 9,
+      "lensDays": 30,
+      "lensStroke": 6,
+      "lensOffset": 13,
+      "sunRadius": 54,
+      "beadMergeWithinDays": 2,
+      "beadMaxSpanDays": 6,
+      "beadCountFrom": 3,
+      "busyWeekFrom": 4,
+      "busyMaxExtraStroke": 6,
+      "dialMax": "26rem",
+      "dialCompactPhoneMax": "21rem",
+      "addRingMax": "22.5rem"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "column",
+        "value": "36rem max width on every screen"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The form's main action: royal ground, 48px, 14px corners.",
+      "html": "<button class=\"ds-btn-primary\">Save</button>",
+      "css": ".ds-btn-primary { font-family: var(--font-sans), Geist, system-ui, sans-serif; display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border: none; border-radius: 14px; background: var(--primary); color: var(--primary-foreground); font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color .15s; } .ds-btn-primary:hover { background: color-mix(in oklch, var(--primary) 90%, transparent); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); } .ds-btn-primary:disabled { opacity: .7; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Secondary full-width action on a card ground with a field stroke.",
+      "html": "<button class=\"ds-btn-quiet\">Continue with Google</button>",
+      "css": ".ds-btn-quiet { font-family: var(--font-sans), Geist, system-ui, sans-serif; display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border: 1px solid var(--input); border-radius: 14px; background: var(--card); color: var(--foreground); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color .15s; } .ds-btn-quiet:hover { background: var(--muted); } .ds-btn-quiet:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Text Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Royal text in a pill; orbit-soft on hover.",
+      "html": "<button class=\"ds-btn-text\">Back to today</button>",
+      "css": ".ds-btn-text { font-family: var(--font-sans), Geist, system-ui, sans-serif; border: none; background: transparent; color: var(--primary); padding: 8px 16px; border-radius: 9999px; font-size: .875rem; font-weight: 500; cursor: pointer; } .ds-btn-text:hover { background: var(--orbit-soft); } .ds-btn-text:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Add Button",
+      "kind": "button",
+      "refersTo": "button-add",
+      "description": "The tab bar's one raised element: a marigold circle with the sun lift.",
+      "html": "<a class=\"ds-btn-add\" href=\"#\" aria-label=\"Add someone\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></a>",
+      "css": ".ds-btn-add { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 9999px; background: var(--sun); color: var(--sun-foreground); box-shadow: 0 0 0 4px var(--background), 0 6px 16px -4px oklch(0.6 0.15 70 / 0.55); transition: transform .15s; } .ds-btn-add:active { transform: scale(.95); } .ds-btn-add:focus-visible { outline: 3px solid color-mix(in oklch, var(--ring) 50%, transparent); outline-offset: 4px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "48px field, 14px corners, field stroke, focus halo.",
+      "html": "<input class=\"ds-input\" placeholder=\"Nicknames\" />",
+      "css": ".ds-input { font-family: var(--font-sans), Geist, system-ui, sans-serif; height: 48px; width: 100%; padding: 0 12px; border: 1px solid var(--input); border-radius: 14px; background: var(--card); color: var(--foreground); font-size: 1rem; transition: border-color .15s, box-shadow .15s; } .ds-input::placeholder { color: var(--muted-foreground); } .ds-input:focus-visible { border-color: var(--ring); outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Checklist",
+      "kind": "custom",
+      "refersTo": "checklist-tile",
+      "description": "Four one-tap care actions; done is royal (on the today card, done inverts to Sun Ink).",
+      "html": "<div class=\"ds-checklist\"><button class=\"ds-check on\" aria-pressed=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/></svg>Greeted</button><button class=\"ds-check\" aria-pressed=\"false\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/></svg>Prayed</button><button class=\"ds-check\" aria-pressed=\"false\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/></svg>Gifted</button><button class=\"ds-check\" aria-pressed=\"false\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/></svg>Celebrated</button></div>",
+      "css": ".ds-checklist { font-family: var(--font-sans), Geist, system-ui, sans-serif; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .ds-check { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 56px; border: 1px solid var(--border); border-radius: 14px; background: var(--card); color: var(--muted-foreground); font-size: .75rem; font-weight: 500; cursor: pointer; transition: background-color .15s, color .15s; } .ds-check:hover { background: var(--muted); color: var(--foreground); } .ds-check.on { border-color: transparent; background: var(--primary); color: var(--primary-foreground); } .ds-check:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Today Card",
+      "kind": "card",
+      "refersTo": "today-card",
+      "description": "Marigold card for a birthday that is today, holding the sun-tone checklist.",
+      "html": "<section class=\"ds-today\"><h2>Mai</h2><p>Maria Santos · turns 41 today</p><div class=\"ds-today-row\"><button class=\"ds-sun-check on\">Greeted</button><button class=\"ds-sun-check\">Prayed</button><button class=\"ds-sun-check\">Gifted</button><button class=\"ds-sun-check\">Celebrated</button></div></section>",
+      "css": ".ds-today { font-family: var(--font-sans), Geist, system-ui, sans-serif; border-radius: 22px; background: var(--sun); color: var(--sun-foreground); padding: 14px 16px 16px; } .ds-today h2 { font-family: var(--font-brand), Nunito, ui-rounded, system-ui, sans-serif; margin: 0; font-size: 1.6rem; line-height: 1.25; font-weight: 800; letter-spacing: -.025em; } .ds-today p { margin: 0 0 12px; font-size: .875rem; font-weight: 500; opacity: .8; } .ds-today-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .ds-sun-check { height: 56px; border: 1px solid color-mix(in oklch, var(--sun-foreground) 15%, transparent); border-radius: 14px; background: rgb(255 255 255 / .5); color: var(--sun-foreground); font-size: .75rem; font-weight: 500; cursor: pointer; } .ds-sun-check:hover { background: rgb(255 255 255 / .8); } .ds-sun-check.on { border-color: transparent; background: var(--sun-foreground); color: var(--sun); } .ds-sun-check:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Birthday Row",
+      "kind": "custom",
+      "refersTo": "countdown-today-pill",
+      "description": "Countdown-led row: tabular Nunito numeral (royal this week), name, detail, chevron.",
+      "html": "<a class=\"ds-row\" href=\"#\"><span class=\"ds-count\"><b>3</b><small>days</small></span><span class=\"ds-row-text\"><span class=\"ds-row-name\">Ben Cruz <em>· Benny</em></span><span class=\"ds-row-detail\">Sun, Oct 5 · turns 29</span></span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a>",
+      "css": ".ds-row { font-family: var(--font-sans), Geist, system-ui, sans-serif; display: flex; align-items: center; gap: 12px; padding: 10px 8px 10px 0; border-radius: 18px; color: var(--foreground); text-decoration: none; transition: background-color .15s; } .ds-row:hover { background: var(--muted); } .ds-row:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); } .ds-count { display: flex; flex-direction: column; align-items: center; width: 56px; line-height: 1; } .ds-count b { font-family: var(--font-brand), Nunito, ui-rounded, system-ui, sans-serif; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--primary); } .ds-count small { margin-top: 2px; font-size: .65rem; font-weight: 600; color: var(--muted-foreground); } .ds-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; } .ds-row-name { font-weight: 500; } .ds-row-name em { font-style: normal; font-weight: 400; color: var(--muted-foreground); } .ds-row-detail { font-size: .875rem; color: var(--muted-foreground); } .ds-row svg { color: color-mix(in oklch, var(--muted-foreground) 60%, transparent); }"
+    },
+    {
+      "name": "Year Dial (static)",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "The signature: the open royal ring with the flame at today, beads, the marigold lens and the sun holding the countdown.",
+      "html": "<svg class=\"ds-dial\" viewBox=\"0 0 360 360\" role=\"img\" aria-label=\"Year dial\"><path d=\"M 199.4 56.6 A 124 124 0 1 1 160.6 56.6\" fill=\"none\" stroke=\"var(--primary)\" stroke-width=\"13\" stroke-linecap=\"round\"/><path d=\"M 180 43 A 137 137 0 0 1 248.5 61.3\" fill=\"none\" stroke=\"var(--sun)\" stroke-width=\"6\" stroke-linecap=\"round\"/><circle cx=\"214\" cy=\"61\" r=\"3.9\" fill=\"var(--sun)\"/><circle cx=\"292\" cy=\"129\" r=\"3\" fill=\"var(--background)\"/><circle cx=\"304\" cy=\"190\" r=\"5.8\" fill=\"var(--background)\"/><text x=\"304\" y=\"190\" text-anchor=\"middle\" dominant-baseline=\"central\" class=\"ds-dial-count\">3</text><circle cx=\"120\" cy=\"290\" r=\"3\" fill=\"var(--background)\"/><circle cx=\"62\" cy=\"150\" r=\"3.9\" fill=\"var(--background)\"/><path transform=\"translate(180 56) scale(1.1) translate(-78 -20)\" d=\"M78 9 C82.5 14 85 18 85 22.5 A7 7 0 0 1 71 22.5 C71 18 73.5 14 78 9 Z\" fill=\"var(--sun)\"/><circle cx=\"180\" cy=\"180\" r=\"54\" fill=\"var(--sun)\"/><text x=\"180\" y=\"174\" text-anchor=\"middle\" dominant-baseline=\"central\" class=\"ds-dial-big\">3</text><text x=\"180\" y=\"202\" text-anchor=\"middle\" dominant-baseline=\"central\" class=\"ds-dial-small\">days until</text></svg>",
+      "css": ".ds-dial { display: block; width: 100%; max-width: 26rem; } .ds-dial-big { font-family: var(--font-brand), Nunito, ui-rounded, system-ui, sans-serif; font-size: 38px; font-weight: 800; fill: var(--sun-foreground); } .ds-dial-small { font-family: var(--font-sans), Geist, system-ui, sans-serif; font-size: 11px; font-weight: 500; fill: var(--sun-foreground); opacity: .8; } .ds-dial-count { font-family: var(--font-brand), Nunito, ui-rounded, system-ui, sans-serif; font-size: 7.5px; font-weight: 800; fill: var(--primary); }"
+    },
+    {
+      "name": "Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Translucent cream bar: Year, raised marigold Add, Calendar.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab on\" href=\"#\">Year</a><a class=\"ds-tab-add\" href=\"#\" aria-label=\"Add someone\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></a><a class=\"ds-tab\" href=\"#\">Calendar</a></nav>",
+      "css": ".ds-tabs { font-family: var(--font-sans), Geist, system-ui, sans-serif; display: flex; align-items: flex-end; padding: 0 24px; border-top: 1px solid color-mix(in oklch, var(--border) 70%, transparent); background: color-mix(in oklch, var(--background) 90%, transparent); backdrop-filter: blur(12px); } .ds-tab { flex: 1; height: 56px; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 600; color: var(--muted-foreground); text-decoration: none; transition: color .15s; } .ds-tab:hover { color: var(--foreground); } .ds-tab.on { color: var(--primary); } .ds-tab:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent); } .ds-tab-add { margin: -20px 16px 0; display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; flex-shrink: 0; border-radius: 9999px; background: var(--sun); color: var(--sun-foreground); box-shadow: 0 0 0 4px var(--background), 0 6px 16px -4px oklch(0.6 0.15 70 / 0.55); } .ds-tab-add:active { transform: scale(.95); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "One Trip Around the Sun",
+    "overview": "Orbit is the logo grown to the size of an app. A royal-blue ring with round caps, open at today, with the logo's marigold flame burning in the gap; a marigold sun at the center; cream paper underneath (deep navy at night). Everyone the owner cares about is a bead on that ring at their birthday's angle, so the year is one shape rather than a list. The same ring, at the same geometry, appears on the home dial and in the add flow, and the month grid on the calendar reuses its beads. The orbit is the product's own language, never decoration laid over a generic agenda.\n\nThe feel is warm, round and quiet. Faces are rounded (Nunito at extrabold for numbers, names and headings), surfaces are soft-cornered and flat, and the only bright color is the sun. Density is phone-first and calm: one column, big tap targets, few lines per person, and summaries (counted beads, thickened busy weeks, \"Show N more\") instead of long lists. Motion tells the name's story: the mark's intro draws the ring with a travelling spark that lights the flame, the dial draws the year from today while beads settle in date order, and at rest the flame flickers and the sun breathes. Every animation rests still under reduced motion.\n\nLight and dark follow the phone; there is no theme switch. The browser's own surfaces (selection, caret, scrollbar, theme color) carry the palette, and the app suppresses web-page tells (tap highlight, text selection outside fields, link callouts, image drag) so it behaves like an installed app.",
+    "keyCharacteristics": [
+      "The year is a ring: 360-unit box, radius 124, 13-unit round-capped royal stroke, an 18° gap at today holding the flame.",
+      "Marigold means now: today, the lens in focus, the selected choice, and the one standing invitation (Add).",
+      "Royal blue is structure and \"this week\": the ring, interactive text, done states, near countdowns.",
+      "Rounded Nunito extrabold for anything you glance at; Geist for anything you read.",
+      "Flat tonal surfaces with generous radii (14px to 22px); depth from paper, card and soft tints, not shadow.",
+      "Motion follows the logo's intro once per app open, then settles to a slow flicker and breath."
+    ],
+    "rules": [
+      {
+        "name": "The Sun Means Now Rule",
+        "body": "Marigold marks what is happening now or what is in focus: today, the lens, the current choice, and the Add invitation. Upcoming-but-not-today is blue; everything else is ink on paper. If marigold appears, something on that spot is today or selected.",
+        "section": "colors"
+      },
+      {
+        "name": "The Brown Ink Rule",
+        "body": "Anything set on marigold uses Sun Ink, and \"done\" on a marigold card inverts to Sun Ink ground with marigold text, so state reads in both themes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rounded Glance Rule",
+        "body": "Numbers, names in focus and headings are Nunito at 700 to 800; sentences and details are Geist. Nunito never sets a paragraph.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Count Rule",
+        "body": "Every countdown, date numeral and bead count uses tabular figures so they don't jitter while the dial turns.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper Not Plastic Rule",
+        "body": "Cards and tiles never cast shadows; separation is a tonal step or a hairline. A shadow is reserved for something that sits physically above the ring or the bar.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do draw any view of the year with the shared ring: 360 box, radius 124, 13-unit round-capped stroke, the gap and flame at today.",
+      "Do keep marigold for now and focus (today, the lens, the selection, Add) and set Sun Ink on it.",
+      "Do lead a person's row with how far away they are, in tabular Nunito extrabold.",
+      "Do summarise crowds: merged and counted beads, thickened busy weeks, \"Show N more\" past two pending.",
+      "Do separate surfaces with tonal steps and hairlines, with corners from 14px (controls) to 22px (cards) and full circles for anything on the orbit.",
+      "Do give every animation a still rest under reduced motion, and play intros once per app open, never on every navigation.",
+      "Do use `cubic-bezier(0.16, 1, 0.3, 1)` for things arriving and `cubic-bezier(0.65, 0, 0.35, 1)` for strokes drawing."
+    ],
+    "donts": [
+      "Don't close the ring or move the gap away from today; the open ring with the flame is the logo.",
+      "Don't set white text on marigold, or use marigold for upcoming-but-not-today.",
+      "Don't add drop shadows to cards, rows or tiles; only the Add button and the add flow's ring choices lift.",
+      "Don't set paragraphs in Nunito or headings in Geist.",
+      "Don't use uppercase beyond three-letter month and weekday abbreviations.",
+      "Don't add a theme switch; light and dark follow the phone."
+    ]
+  }
+}
