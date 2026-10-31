@@ -26,14 +26,16 @@ export function OrbitAdd({
   today,
   beads,
   added,
+  initialName = "",
 }: {
   today: string;
   beads: number[]; // everyone's days until their birthday
   added: { id: string; name: string; month: number; day: number } | null;
+  initialName?: string; // from "Add “Maria”" when a search found no one
 }) {
   const [state, formAction, pending] = useActionState<PersonFormState, FormData>(savePerson, {});
   const [, startTransition] = useTransition();
-  const [name, setName] = useState("");
+  const [name, setName] = useState(initialName);
   const [month, setMonth] = useState<number | null>(null);
   const [day, setDay] = useState<number | null>(null);
   const [then, setThen] = useState<"open" | "another">("open");
@@ -69,7 +71,7 @@ export function OrbitAdd({
           <span className="min-w-0 flex-1">
             <span className="font-semibold">{added.name}</span> is in your orbit, on {MONTHS[added.month - 1]} {added.day}.
           </span>
-          <Link href={`/people/${added.id}`} className="shrink-0 font-semibold text-primary">
+          <Link href={`/people/${added.id}`} transitionTypes={["nav-forward"]} className="shrink-0 font-semibold text-primary">
             Open
           </Link>
         </p>

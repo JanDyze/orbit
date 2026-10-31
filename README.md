@@ -18,8 +18,24 @@ project, with everything in its own `orbit` schema.
 - **Add someone** (`/people/new`): type the name, tap the month on the ring, then the day, and their
   bead lands where it will sit on your year. "Save & add another" is for entering a batch. The year,
   nicknames and notes are optional.
+- **Everyone** (`/people`, the lens in the header): search by name or nickname (accents and typos
+  forgiven), or browse A to Z with a letter rail. No match offers to add that name.
 - **Person** (`/people/[id]`): countdown, the checklist and gift note for the nearest birthday,
   gift ideas, notes, nicknames, and past birthdays year by year. Edit or delete from there.
+
+## Installed app (PWA)
+
+- **Install**: Add to Home Screen (iOS) or Install (Chrome/Edge). `app/manifest.ts` has the icons,
+  long-press shortcuts (Add, Find, Calendar) and launch behaviour; iOS gets launch screens for every
+  current iPhone and iPad in light and dark (`lib/splash.ts`).
+- **Offline**: `public/sw.js` (registered in production only) keeps the last good copy of each page
+  you open, so the year and anyone you've looked at open with no connection; anything else shows
+  `/offline`. Pages always come from the network when there is one. Kept pages are dropped when a
+  load is sent to `/login`. Bump `VERSION` in `sw.js` to drop what it stores.
+- **Flaky connections**: `experimental.useOffline` makes navigations and saves wait and retry
+  instead of failing; `components/offline-notice.tsx` says so. Every page has a `loading.tsx`, so
+  taps answer at once.
+- Test offline behaviour with `npm run build && npm start`, not the dev server.
 
 ## How it fits together
 
@@ -62,7 +78,8 @@ npx supabase gen types typescript --project-id <project-ref> --schema orbit > li
 The visual system is in `DESIGN.md` (from the built app), and the product record is in `PRODUCT.md`.
 The logo is `brand/orbit-logo.png`. The animated mark (`components/orbit-mark.tsx`) and the dial's
 flame use paths traced from it into `components/orbit-mark-paths.ts`; after changing the logo, run
-`npm run logo:trace` (potrace) and regenerate the icons in `public/icons/`.
+`npm run logo:trace` (potrace), then `npm run icons` to redraw the favicon, install icons and launch
+screens from the new paths.
 
 ## Scripts
 
@@ -74,3 +91,4 @@ flame use paths traced from it into `components/orbit-mark-paths.ts`; after chan
 | `npm run typecheck` | `tsc --noEmit`       |
 | `npm test`          | Vitest (`lib/**/*.test.ts`) |
 | `npm run logo:trace` | Re-trace the logo into SVG paths |
+| `npm run icons`     | Redraw favicon, app icons and iOS launch screens |

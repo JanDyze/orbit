@@ -10,7 +10,8 @@ import { createPerson, deletePerson, updatePerson } from "@/lib/birthdays/people
 import { yearOf } from "@/lib/birthdays/dates";
 import { today } from "@/lib/day";
 
-export type PersonFormState = { errors?: Partial<Record<PersonField | "form", string>> };
+// `saved` (an edit went through): the form goes back to where it came from (components/person-form.tsx).
+export type PersonFormState = { errors?: Partial<Record<PersonField | "form", string>>; saved?: string };
 
 const idSchema = z.uuid();
 
@@ -45,6 +46,9 @@ export async function savePerson(_prev: PersonFormState, formData: FormData): Pr
   }
 
   revalidatePath("/", "layout");
+  // An edit goes back to the person's page rather than on to a new copy of it, so the edit page
+  // doesn't linger behind it in history.
+  if (typeof id === "string" && id) return { saved: personId };
   // "Save & add another" (the add flow, for entering many in a row) comes back to an empty form.
   redirect(formData.get("then") === "another" ? `/people/new?added=${personId}` : `/people/${personId}`, RedirectType.replace);
 }

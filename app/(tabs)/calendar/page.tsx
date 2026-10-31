@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FindLink } from "@/components/find-link";
 import { MonthCalendar } from "@/components/month-calendar";
 import { MonthStrip } from "@/components/month-strip";
 import { Screen } from "@/components/screen";
@@ -32,7 +33,7 @@ export default async function CalendarPage({ searchParams }: PageProps<"/calenda
   const inMonth = all.filter((r) => r.nextBirthday.startsWith(month));
 
   return (
-    <Screen tab="calendar">
+    <Screen tabBar action={<FindLink />}>
       <div className="mb-4 flex items-center gap-1">
         <Link
           href={`/calendar?m=${shiftMonth(year, monthNumber, -1)}`}

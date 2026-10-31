@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BirthdayChecklist, EMPTY_CHECKLIST } from "@/components/birthday-checklist";
+import { FindLink } from "@/components/find-link";
 import { PendingList } from "@/components/pending-list";
 import { Screen } from "@/components/screen";
 import { YearDial } from "@/components/year-dial";
@@ -21,12 +22,12 @@ export default async function Home() {
   const logs = await logsFor(todays.map((r) => ({ personId: r.personId, year: r.occasionYear })));
 
   return (
-    <Screen tab="home">
+    <Screen tabBar action={<FindLink />}>
       {(todays.length > 0 || missed.length > 0) && (
         <div className="mb-6 flex flex-col gap-3">
           {todays.map((row) => (
             <section key={row.personId} aria-label={`${row.name}'s birthday is today`} className="rounded-3xl bg-sun px-4 pt-3.5 pb-4 text-sun-foreground">
-              <Link href={`/people/${row.personId}`} className="mb-3 block">
+              <Link href={`/people/${row.personId}`} transitionTypes={["nav-forward"]} className="mb-3 block">
                 <h2 className="font-brand text-[1.6rem] leading-tight font-extrabold tracking-tight">
                   {row.nicknames[0] ?? row.name}
                 </h2>

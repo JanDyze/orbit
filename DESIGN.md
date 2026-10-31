@@ -229,7 +229,7 @@ Three logo colors (royal blue #013FA3, marigold #FCB327, cream #FCF9F2) carried 
 
 ## Layout
 
-One phone-width column on every screen: max 36rem (`max-w-xl`), centered, 16px gutters. A sticky header bar (56px plus the top safe-area inset) holds the mark and wordmark, or a back chevron and the page title. On the main pages a fixed bottom bar (56px plus the bottom safe-area inset) holds Year, a raised Add and Calendar; main content pads 7rem plus the inset to clear it. Desktop is the same column, not a reflowed layout.
+One phone-width column on every screen: max 36rem (`max-w-xl`), centered, 16px gutters. A sticky header bar (56px plus the top safe-area inset) holds the mark and wordmark, or a back chevron and the page title. On the main pages a fixed bottom bar (64px, floating 12px above the bottom safe-area inset) holds Year, a raised Add and Calendar; main content pads 8rem plus the inset to clear it. Desktop is the same column, not a reflowed layout.
 
 Rhythm: 24px between major blocks, 12px between stacked cards, 10px vertical padding in list rows, 16 to 20px inside cards. Lists are flat rows on paper with a 12px gap between lead and text; grouped content sits in one bordered card with internal dividers.
 
@@ -242,6 +242,7 @@ Flat and tonal. Depth comes from three layers (cream paper, white or night card,
 ### Shadow Vocabulary
 - **Sun lift** (`box-shadow: 0 6px 16px -4px oklch(0.6 0.15 70 / 0.55)`): only under the raised Add button, together with a 4px ring in the page color that cuts it out of the bar.
 - **Choice lift** (`box-shadow: 0 2px 6px -2px oklch(0.3 0.05 262 / 0.35)`): month choices sitting on the add flow's ring, so they read as tappable pieces above the stroke.
+- **Notice lift** (`box-shadow: 0 6px 20px -8px oklch(0.3 0.05 262 / 0.35)`): the offline pill, which floats over the page under the header.
 
 ### Named Rules
 **The Paper Not Plastic Rule.** Cards and tiles never cast shadows; separation is a tonal step or a hairline. A shadow is reserved for something that sits physically above the ring or the bar.
@@ -284,8 +285,24 @@ One tap per action, optimistic, reverting with a message if saving fails.
 - **The name field in the add flow** is the exception by design: no box, a 2px bottom rule, headline Nunito, turning royal on focus.
 
 ### Navigation
-- **Header:** cream at 85% with blur, hairline below; the mark (full intro once per app open, then flicker) beside the wordmark, whose dotless i carries a marigold dot.
-- **Tab bar:** cream at 90% with blur, hairline above; three slots. Active is royal; inactive is muted ink, and the Year tab's mark goes grayscale at 55% when inactive and never animates.
+- **Header:** cream at 85% with blur, hairline below; the mark (full intro once per app open, then flicker) beside the wordmark, whose dotless i carries a marigold dot. On the main pages its right side holds Find (Orbit's lens-with-a-bead icon), the way to everyone.
+- **Back arrow:** goes back, not up: to the calendar if that's where you came from, at the same scroll (Navigation API `canGoBack`). Opened straight onto a page, it goes to the page's parent instead. Saving an edit also goes back, so the edit page never lingers in history.
+- **Tab bar:** a floating card-colored pill with blur and three slots, drawn once by the `(tabs)` layout so it stays put between Year and Calendar. Active sits in an orbit-soft pill in royal and plays its icon's animation on arrival; inactive is muted ink.
+
+### Page Transitions
+Moving deeper (into a person, Find, Add, Edit) slides the page 48px in from the right with a quick fade; the back arrow slides it home from the left. The exit fades out in 140ms; the entrance eases in over 360ms on the arriving curve. The header is the fixed point and never moves; tab switches, refreshes and the browser's own back don't animate. Links declare their direction (`transitionTypes`); `Screen` maps it to a React `<ViewTransition>`. Still under reduced motion.
+
+### Everyone (Find)
+Everyone in one list, for finding someone without knowing their date. A sticky search field (48px, lens icon inside, clear button once typed) sits under the header; its placeholder counts the circle ("Search 214 people"). Empty, the list runs A to Z under sticky royal Nunito letters, accents folded (Ángela files under A), with a letter rail down the right edge once there are 24 or more people: tap or slide a thumb along it to jump. Typed, it narrows as you type: whole names first, then names whose words start with each word typed, then names containing it; when nothing hits directly it offers close spellings ("No exact match. Close spellings:"), typos included. No one found offers the marigold "Add “Maria”" pill, which opens the add flow with the name filled in. Rows are Birthday Rows. The search lives in `?q=`, so coming back keeps it.
+
+### Loading
+Every page has a loading state in its own shape, so a tap answers at once and nothing jumps when the data lands. Placeholders are warm muted bones (full-round for lines, 14px for tiles) and outlined tiles, at the real elements' sizes. The one moving part is the loader: the ring at 12% royal with a marigold spark leaving the gap at today and making the trip round (1.7s, the drawing curve), the sun at 28% breathing with it. The year and the add flow show it at the dial's size; the calendar sets a small one on a card disc over the grid. Loaders and bones fade in after 180ms, so fast loads never flash them. Offline, the spark rests dimmed in the gap and the loader says "Waiting for a connection…".
+
+### Offline Notice
+A pill under the header while the connection is gone: card ground, hairline, Notice lift, "Offline. Taps save once you're back." with the ring glyph and its flame unlit (outline only). Taps still show at once; Next.js holds the saves and sends them when the connection returns (`experimental.useOffline`). On reconnecting it turns orbit-soft and royal, the flame lights (the mark's ignite), "Back online", and it leaves after 2.4s. It slides down on the arriving curve; never red, never a banner.
+
+### App Icons
+All drawn from the traced mark by `scripts/make-icons.mjs`. The favicon is the mark alone filling its box with the ring and flame thickened so the gap and flame survive 16px; in dark browser chrome the ring lifts to Night Orbit. Install icons sit on cream: a rounded tile (22.5%) for "any", full bleed inside the 80% safe circle for "maskable", white shapes for Android's themed "monochrome". iOS launch screens are the mark centered on cream, or night navy with the lifted ring, for every current iPhone and iPad size.
 
 ### Birthday Row
 The upcoming list's unit. Leads with the countdown, not a date badge: a tabular Nunito numeral over "days" in royal for this week and ink beyond it, or a marigold "Today" pill. Name at medium weight with the first nickname muted after a middle dot, the detail line in body small, and a faint chevron. The whole row is the link; it fills warm muted on hover and press, with 18px corners.

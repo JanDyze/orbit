@@ -1,8 +1,8 @@
 ---
 version: 1
 slug: "app-page-tsx"
-primary_target: "app/page.tsx"
-related_targets: ["app/calendar/page.tsx","app/people/new/page.tsx"]
+primary_target: "app/(tabs)/page.tsx"
+related_targets: ["app/(tabs)/calendar/page.tsx","app/people/page.tsx","app/people/new/page.tsx"]
 ---
 
 Scope: Orbit home (`/`), with the calendar (`/calendar`) and add flow (`/people/new`) joining it. Mode: Operate.

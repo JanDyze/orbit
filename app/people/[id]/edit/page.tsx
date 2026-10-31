@@ -17,7 +17,7 @@ export default async function EditPersonPage({ params }: PageProps<"/people/[id]
   if (!person) notFound();
 
   return (
-    <Screen back={{ href: `/people/${id}`, label: person.name }} title={`Edit ${person.name}`}>
+    <Screen back={`/people/${id}`} title={`Edit ${person.name}`}>
       <PersonForm
         submitLabel="Save"
         person={{

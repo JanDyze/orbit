@@ -43,7 +43,7 @@ export function BirthdayRowLink({ row }: { row: BirthdayRow }) {
     leapNote(row, row.nextBirthday),
   ].filter(Boolean);
   return (
-    <Link href={`/people/${row.personId}`} className="flex items-center gap-3 rounded-2xl py-2.5 pr-2 transition-colors hover:bg-muted active:bg-muted">
+    <Link href={`/people/${row.personId}`} transitionTypes={["nav-forward"]} className="flex items-center gap-3 rounded-2xl py-2.5 pr-2 transition-colors hover:bg-muted active:bg-muted">
       <Countdown days={row.daysUntil} />
       <div className="min-w-0 flex-1">
         <p className="truncate font-medium">

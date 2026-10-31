@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { savePerson, type PersonFormState } from "@/app/people/actions";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,16 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 export function PersonForm({ person = {}, submitLabel }: { person?: PersonDefaults; submitLabel: string }) {
   const [state, formAction, pending] = useActionState<PersonFormState, FormData>(savePerson, {});
   const [, startTransition] = useTransition();
+  const router = useRouter();
+
+  // Saved: back to their page (fresh, as the save revalidated it), or onto it when the edit page
+  // was opened directly.
+  useEffect(() => {
+    if (!state.saved) return;
+    const navigation = (window as Window & { navigation?: { canGoBack?: boolean } }).navigation;
+    if (navigation?.canGoBack) router.back();
+    else router.replace(`/people/${state.saved}`);
+  }, [state.saved, router]);
   const [month, setMonth] = useState(person.birthMonth ? String(person.birthMonth) : "");
   const [day, setDay] = useState(person.birthDay ? String(person.birthDay) : "");
   const errors = state.errors ?? {};
@@ -168,10 +179,10 @@ export function PersonForm({ person = {}, submitLabel }: { person?: PersonDefaul
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending || Boolean(state.saved)}
         className="flex h-12 items-center justify-center gap-2 rounded-xl bg-primary text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-70"
       >
-        {pending && <Loader2 className="size-5 animate-spin" aria-hidden />}
+        {(pending || state.saved) && <Loader2 className="size-5 animate-spin" aria-hidden />}
         {submitLabel}
       </button>
     </form>

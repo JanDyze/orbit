@@ -76,11 +76,12 @@ export default async function PersonPage({ params }: PageProps<"/people/[id]">) 
 
   return (
     <Screen
-      back={{ href: "/", label: "Your year" }}
+      back="/"
       title={person.name}
       action={
         <Link
           href={`/people/${id}/edit`}
+          transitionTypes={["nav-forward"]}
           aria-label={`Edit ${person.name}`}
           className="flex size-10 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground"
         >

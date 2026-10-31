@@ -2,8 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { NEXT_COOKIE, safeNextPath } from "@/lib/next-path";
 
-// Pages anyone may open.
-const PUBLIC_PATHS = ["/login", "/auth"];
+// Pages anyone may open. /offline holds no data; the service worker keeps a copy to show when
+// there's no connection.
+const PUBLIC_PATHS = ["/login", "/auth", "/offline"];
 
 function isPublic(pathname: string) {
   return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));

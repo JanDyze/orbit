@@ -47,6 +47,17 @@ export function CalendarIcon(props: IconProps) {
   );
 }
 
+// A lens with a bead in it: finding someone on the ring.
+export function SearchIcon(props: IconProps) {
+  return (
+    <Svg {...props} name="search">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.5 15.5 5 5" />
+      <circle className="i-bead" cx="10.5" cy="10.5" r="2.4" fill="var(--icon-accent)" stroke="none" />
+    </Svg>
+  );
+}
+
 export function AddIcon(props: IconProps) {
   return (
     <Svg {...props} name="add">

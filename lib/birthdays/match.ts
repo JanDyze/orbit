@@ -57,6 +57,25 @@ function closeness(query: string, names: string[]) {
   return Math.max(...names.map((name) => Math.max(similarity(query, name), ...name.split(" ").map((w) => similarity(query, w)))));
 }
 
+// Edits (a letter added, dropped, changed, or two swapped) from a to b: optimal string alignment.
+function editDistance(a: string, b: string) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+    }
+  }
+  return d[a.length][b.length];
+}
+
+// How close a typed word is to any word of a person's names, 0 to 1, counting a swapped pair of
+// letters as one slip: trigrams see "jonh" as far from "john"; this sees one slip.
+function typoCloseness(query: string, names: string[]) {
+  return Math.max(...names.flatMap((name) => name.split(" ")).map((w) => 1 - editDistance(query, w) / Math.max(query.length, w.length)));
+}
+
 export const FUZZY_THRESHOLD = 0.4;
 const SUGGESTION_THRESHOLD = 0.2;
 
@@ -64,6 +83,36 @@ function pick<T extends Candidate>(hits: T[]): MatchResult<T> | null {
   if (hits.length === 1) return { kind: "one", person: hits[0] };
   if (hits.length > 1) return { kind: "many", people: hits };
   return null;
+}
+
+// Who a search box shows for what's been typed so far. The same steps as matchPerson, but every
+// direct hit at once, best first (whole names, then each word typed starting a word of the name,
+// then the name containing it), since the list narrows as you type. Only when nothing hits
+// directly does it offer close spellings (`close`), so a typo still finds someone.
+export function searchPeople<T extends Candidate>(query: string, people: T[]): { people: T[]; close: boolean } {
+  const q = normalizeName(query);
+  if (!q) return { people: [], close: false };
+  const qWords = q.split(" ");
+  const hits: { p: T; tier: number }[] = [];
+  for (const p of people) {
+    const names = namesOf(p);
+    if (names.includes(q)) hits.push({ p, tier: 0 });
+    else if (names.some((n) => qWords.every((qw) => n.split(" ").some((w) => w.startsWith(qw))))) hits.push({ p, tier: 1 });
+    else if (names.some((n) => n.includes(q))) hits.push({ p, tier: 2 });
+  }
+  if (hits.length > 0) {
+    return { people: hits.sort((a, b) => a.tier - b.tier || a.p.name.localeCompare(b.p.name)).map((h) => h.p), close: false };
+  }
+  const close = people
+    .map((p) => {
+      const names = namesOf(p);
+      return { p, score: closeness(q, names), typo: typoCloseness(q, names) };
+    })
+    .filter((s) => s.score >= SUGGESTION_THRESHOLD || s.typo >= 0.75)
+    .sort((a, b) => b.score + b.typo - (a.score + a.typo))
+    .slice(0, 5)
+    .map((s) => s.p);
+  return { people: close, close: true };
 }
 
 export function matchPerson<T extends Candidate>(query: string, people: T[]): MatchResult<T> {

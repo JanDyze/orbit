@@ -556,6 +556,122 @@ html {
   }
 }
 
+/* ---------- Loading (components/skeletons.tsx) ---------- */
+
+/* The loader is the mark's intro on a loop: a spark leaves the gap at today and makes the trip
+   round the ring. It and the placeholders only fade in after a beat, so a page that loads fast
+   never flashes them. Offline, the spark rests in the gap. */
+.orbit-loader .loader-spark,
+.orbit-loader .loader-sun {
+  transform-box: view-box;
+  transform-origin: 180px 180px;
+}
+.orbit-loader[data-offline] .loader-spark {
+  opacity: 0.45;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .orbit-loader,
+  .skeleton-bone {
+    animation: loader-in 0.4s ease-out 0.18s both;
+  }
+  .orbit-loader:not([data-offline]) .loader-spark {
+    animation: loader-orbit 1.7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  .orbit-loader:not([data-offline]) .loader-sun {
+    animation: om-breathe 1.7s ease-in-out infinite;
+  }
+}
+@keyframes loader-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes loader-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Offline notice (components/offline-notice.tsx) ---------- */
+
+.offline-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .offline-notice {
+    animation: notice-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .offline-flame {
+    animation: om-ignite 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+}
+@keyframes notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.96);
+  }
+}
+
+/* ---------- Page transitions (components/screen.tsx) ---------- */
+
+/* Deeper slides in from the right and back slides home from the left, 48px and quick: enough to
+   say which way you went. The header is the fixed point; taps during the slide reach the page. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation:
+    0.14s ease-in both page-fade reverse,
+    0.36s cubic-bezier(0.65, 0, 0.35, 1) both page-slide reverse;
+}
+::view-transition-new(.nav-forward),
+::view-transition-new(.nav-back) {
+  animation:
+    0.22s ease-out 0.12s both page-fade,
+    0.36s cubic-bezier(0.16, 1, 0.3, 1) both page-slide;
+}
+::view-transition-old(.nav-forward) {
+  --slide-offset: -48px;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: 48px;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: 48px;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: -48px;
+}
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes page-slide {
+  from {
+    translate: var(--slide-offset);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 /* ---------- Feel like an app, not a web page (as Kept) ---------- */
 
 html {

@@ -23,7 +23,7 @@ export function PendingList({ rows }: { rows: BirthdayRow[] }) {
       <ul className="divide-y divide-border">
         {shown.map((row) => (
           <li key={row.personId} className="flex items-center gap-2 py-2.5">
-            <Link href={`/people/${row.personId}`} className="min-w-0 flex-1 rounded-lg px-1">
+            <Link href={`/people/${row.personId}`} transitionTypes={["nav-forward"]} className="min-w-0 flex-1 rounded-lg px-1">
               <p className="truncate font-medium">{row.nicknames[0] ?? row.name}</p>
               <p className="truncate text-xs text-muted-foreground">{pastDetails(row)}</p>
             </Link>

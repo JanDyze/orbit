@@ -160,7 +160,7 @@ export function MonthCalendar({
         ) : (
           <div className="flex flex-col">
             {shown.map((p) => (
-              <Link key={p.personId} href={`/people/${p.personId}`} className="flex items-center gap-3 rounded-2xl px-2 py-2.5 hover:bg-muted active:bg-muted">
+              <Link key={p.personId} href={`/people/${p.personId}`} transitionTypes={["nav-forward"]} className="flex items-center gap-3 rounded-2xl px-2 py-2.5 hover:bg-muted active:bg-muted">
                 <span className="flex w-12 shrink-0 flex-col items-center leading-none">
                   <span className={cn("font-brand text-2xl font-extrabold tabular-nums", p.date === today && "text-primary")}>{Number(p.date.slice(8, 10))}</span>
                   <span className="mt-0.5 text-[0.65rem] font-semibold text-muted-foreground uppercase">{weekday(p.date).slice(0, 3)}</span>

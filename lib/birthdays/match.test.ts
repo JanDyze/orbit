@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { matchPerson, normalizeName, similarity } from "./match";
+import { matchPerson, normalizeName, searchPeople, similarity } from "./match";
 
 const people = [
   { id: "11111111-1111-4111-8111-111111111111", name: "Mark Santos" },
@@ -63,5 +63,39 @@ describe("matchPerson", () => {
 
   it("finds no one for a name that isn't there", () => {
     expect(matchPerson("Zelda", people)).toEqual({ kind: "none", suggestions: [] });
+  });
+});
+
+describe("searchPeople", () => {
+  const names = (query: string) => searchPeople(query, people).people.map((p) => p.name);
+
+  it("shows nobody for an empty search", () => {
+    expect(names("  ")).toEqual([]);
+  });
+
+  it("puts a whole-name match before names that only start with it", () => {
+    expect(names("john")).toEqual(["John", "Johnny Bravo"]);
+  });
+
+  it("matches the start of any word, in name order", () => {
+    expect(names("mar")).toEqual(["Mark Reyes", "Mark Santos"]);
+    expect(names("mark s")).toEqual(["Mark Santos"]);
+  });
+
+  it("finds people by nickname, ignoring accents", () => {
+    expect(names("babs")).toEqual(["Tita Baby"]);
+    expect(names("jose")).toEqual(["José Dela Cruz"]);
+  });
+
+  it("finds names containing what was typed", () => {
+    expect(names("ela")).toEqual(["José Dela Cruz"]);
+  });
+
+  it("offers close spellings only when nothing matches directly", () => {
+    expect(searchPeople("mark s", people).close).toBe(false);
+    const typo = searchPeople("jonh", people);
+    expect(typo.close).toBe(true);
+    expect(typo.people[0].name).toBe("John");
+    expect(searchPeople("zzzz", people)).toEqual({ people: [], close: true });
   });
 });

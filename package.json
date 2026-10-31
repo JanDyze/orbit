@@ -1,6 +1,6 @@
 {
   "name": "orbit",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "logo:trace": "node scripts/trace-logo.mjs"
+    "logo:trace": "node scripts/trace-logo.mjs",
+    "icons": "node --no-warnings scripts/make-icons.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
